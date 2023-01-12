@@ -1,0 +1,14 @@
+c:\Users\CrabD\Projects\RustNet\target\debug\deps\emath-f3b1bc14125f199b.rmeta: C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\lib.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\align.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\history.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\numeric.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\pos2.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rect.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rect_transform.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rot2.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\smart_aim.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\vec2.rs
+
+c:\Users\CrabD\Projects\RustNet\target\debug\deps\emath-f3b1bc14125f199b.d: C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\lib.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\align.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\history.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\numeric.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\pos2.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rect.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rect_transform.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rot2.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\smart_aim.rs C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\vec2.rs
+
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\lib.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\align.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\history.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\numeric.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\pos2.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rect.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rect_transform.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\rot2.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\smart_aim.rs:
+C:\Users\CrabD\.cargo\registry\src\github.com-1ecc6299db9ec823\emath-0.20.0\src\vec2.rs:
