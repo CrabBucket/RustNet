@@ -10,6 +10,45 @@ enum LayerType { Input, Hidden, Output }
 // This enum represents the different types of activation functions that have been implemented.
 enum ActivationFunction { Sigmoid, ReLU, LeakyReLU, TanH, Softmax }
 
+
+// All activations functions should need to apply their their respective functions to the given input.
+impl ActivationFunction {
+    // This function applies the given activation function to the given input.
+    pub fn apply_function(&self, input: f32) -> f32 {
+        // This match statement matches the activation function and returns the result of the given function.
+        match self {
+            ActivationFunction::Sigmoid => 1.0 / (1.0 + (-input).exp()),
+            ActivationFunction::ReLU => input.max(0.0),
+            ActivationFunction::LeakyReLU => input.max(0.1 * input),
+            ActivationFunction::TanH => input.tanh(),
+            ActivationFunction::Softmax => 1.0 / (1.0 + (-input).exp()),
+        }
+    }
+}
+
+enum LossFunction { MeanSquaredError, CrossEntropy }
+
+impl<const SIZE: usize> LossFunction {
+    pub fn apply_function(&self, input: [f32; SIZE], expected: [f32; SIZE]) -> f32 {
+        match self {
+            LossFunction::CrossEntropy => {
+                let mut sum = 0.0;
+                for i in 0..SIZE {
+                    sum += expected[i] * input[i].ln();
+                }
+                -sum
+            },
+            LossFunction::MeanSquaredError => {
+                let mut sum = 0.0;
+                for i in 0..SIZE {
+                    sum += (expected[i] - input[i]).powi(2);
+                }
+                sum / 2.0
+            }
+        }
+    }git 
+}
+
 trait InputSize {
     fn get_input_size(&self) -> usize;
 }
@@ -28,20 +67,6 @@ trait Layer<const SIZE: usize, const INPUT: usize> {
     fn feed_forward(&self, input: [f32; INPUT]) -> [f32; SIZE];
 }
 
-// All activations functions should need to apply their their respective functions to the given input.
-impl ActivationFunction {
-    // This function applies the given activation function to the given input.
-    pub fn apply_function(&self, input: f32) -> f32 {
-        // This match statement matches the activation function and returns the result of the given function.
-        match self {
-            ActivationFunction::Sigmoid => 1.0 / (1.0 + (-input).exp()),
-            ActivationFunction::ReLU => input.max(0.0),
-            ActivationFunction::LeakyReLU => input.max(0.1 * input),
-            ActivationFunction::TanH => input.tanh(),
-            ActivationFunction::Softmax => 1.0 / (1.0 + (-input).exp()),
-        }
-    }
-}
 pub struct InputLayer<const SIZE: usize> {
     size: usize,
     bias: f32,
@@ -106,22 +131,22 @@ impl<const SIZE: usize, const INPUT: usize> Layer<SIZE, INPUT> for HiddenLayer<S
 }
 
 
-fn random_f32() -> f32 {
+fn random_f32(max: f32) -> f32 {
     (std::f32::consts::PI * (std::time::SystemTime::now().elapsed().unwrap().as_nanos() as f32))
     .sin()
     .abs()
-    / std::f32::consts::PI / 2.0 * 0.3
+    / std::f32::consts::PI / 2.0 * max
 }
 impl<const SIZE: usize, const INPUT: usize> HiddenLayer<SIZE, INPUT> {
     pub fn randomize_bias(&mut self) {
         for i in 0..SIZE {
-            self.bias[i] = random_f32();
+            self.bias[i] = random_f32(0.3);
         }
     }
     pub fn randomize_weights(&mut self) {
         for i in 0..SIZE {
             for j in 0..INPUT {
-                self.weights[i][j] = random_f32();
+                self.weights[i][j] = random_f32(0.3);
             }
         }
     }
