@@ -1,4 +1,4 @@
-use rand::Rng;
+
 
 
 // This enum represents the three types of layers that a neural network can have: input, hidden, and output.
@@ -28,32 +28,15 @@ impl ActivationFunction {
 
 enum LossFunction { MeanSquaredError, CrossEntropy }
 
-impl<const SIZE: usize> LossFunction {
-    pub fn apply_function(&self, input: [f32; SIZE], expected: [f32; SIZE]) -> f32 {
-        match self {
-            LossFunction::CrossEntropy => {
-                let mut sum = 0.0;
-                for i in 0..SIZE {
-                    sum += expected[i] * input[i].ln();
-                }
-                -sum
-            },
-            LossFunction::MeanSquaredError => {
-                let mut sum = 0.0;
-                for i in 0..SIZE {
-                    sum += (expected[i] - input[i]).powi(2);
-                }
-                sum / 2.0
-            }
-        }
-    }git 
+impl LossFunction {
+
 }
 
 trait InputSize {
     fn get_input_size(&self) -> usize;
 }
 
-trait Layer<const SIZE: usize, const INPUT: usize> {
+pub trait Layer {
     // This function returns the type of this layer.
     fn get_type(&self) -> LayerType;
 
@@ -61,17 +44,15 @@ trait Layer<const SIZE: usize, const INPUT: usize> {
     fn get_size(&self) -> usize;
 
     // This function creates a new layer with the given size.
-    fn new(size: usize) -> Self;
 
-    // This function feeds the given input into this layer and returns the output.
-    fn feed_forward(&self, input: [f32; INPUT]) -> [f32; SIZE];
+
 }
 
-pub struct InputLayer<const SIZE: usize> {
+pub struct InputLayer {
     size: usize,
     bias: f32,
 }
-impl<const SIZE: usize, const INPUT: usize> Layer<SIZE, INPUT> for InputLayer<SIZE> {
+impl Layer for InputLayer {
     fn get_type(&self) -> LayerType {
         LayerType::Input
     }
@@ -80,14 +61,8 @@ impl<const SIZE: usize, const INPUT: usize> Layer<SIZE, INPUT> for InputLayer<SI
         self.size
     }
 
-    fn new(size: usize) -> Self {
-        InputLayer { size, bias: 0.0 }
-    }
-
-    fn feed_forward(&self, input: Vec<f32>) -> Vec<f32> {
-        input
-    }
 }
+
 
 //
 // This structure represents a hidden layer in a neural network.
@@ -98,80 +73,32 @@ impl<const SIZE: usize, const INPUT: usize> Layer<SIZE, INPUT> for InputLayer<SI
 // The activation function of a neuron is used to transform the output of that
 // neuron from the previous layer to the input to the next layer.
 //
-struct HiddenLayer<const SIZE: usize, const INPUT: usize> {
-    bias: [f32; SIZE], // The bias of each neuron in this layer
-    activation_function: ActivationFunction, // The activation function used by the neurons in this layer
-    weights: [[f32; INPUT]; SIZE],
+pub struct HiddenLayer {
+    neurons: usize,
+    activation_function: ActivationFunction,
 }
 
-impl<const SIZE: usize, const INPUT: usize> Layer<SIZE, INPUT> for HiddenLayer<SIZE, INPUT> {
+impl Layer for HiddenLayer {
     fn get_type(&self) -> LayerType { LayerType::Hidden }
-    fn get_size(&self) -> usize { SIZE }
-    fn new(size: usize) -> Self {
+    fn get_size(&self) -> usize { self.neurons }
+    fn new(size: usize, activation_function: ActivationFunction) -> Self {
         HiddenLayer {
-            bias: [0.0; SIZE],
+            neurons: size,
             activation_function: ActivationFunction::Sigmoid,
-            weights: [[0.0; INPUT]; SIZE],
         }
-    }
-
-    fn feed_forward(&self, input: [f32; INPUT]) -> [f32; SIZE] {
-        let mut output = [0.0; SIZE];
-        for i in 0..SIZE {
-            for j in 0..INPUT {
-                output[i] += input[j] * self.weights[i][j];
-            }
-            output[i] += self.bias[i];
-            output[i] = self.activation_function.apply_function(output[i]);
-        }
-        output
     }
 
     
 }
 
 
-fn random_f32(max: f32) -> f32 {
-    (std::f32::consts::PI * (std::time::SystemTime::now().elapsed().unwrap().as_nanos() as f32))
-    .sin()
-    .abs()
-    / std::f32::consts::PI / 2.0 * max
-}
-impl<const SIZE: usize, const INPUT: usize> HiddenLayer<SIZE, INPUT> {
-    pub fn randomize_bias(&mut self) {
-        for i in 0..SIZE {
-            self.bias[i] = random_f32(0.3);
-        }
-    }
-    pub fn randomize_weights(&mut self) {
-        for i in 0..SIZE {
-            for j in 0..INPUT {
-                self.weights[i][j] = random_f32(0.3);
-            }
-        }
-    }
-    pub fn back_prop(&self, input: [f32; INPUT], output: [f32; SIZE], expected: [f32; SIZE]){
-        let mut error = [0.0; SIZE];
-        for i in 0..SIZE {
-            error[i] = expected[i] - output[i];
-        }
-        for i in 0..SIZE {
-            for j in 0..INPUT {
-                self.weights[i][j] += error[i] * input[j];
-            }
-            self.bias[i] += error[i];
-        }
-    }
-
-}
 
 pub struct OutputLayer {
     size: usize,
-    bias: f32,
     activation_function: ActivationFunction,
     
 }
-pub impl Layer for OutputLayer {
+impl Layer for OutputLayer {
     fn get_type(&self) -> LayerType {
         LayerType::Output
     }
@@ -180,11 +107,7 @@ pub impl Layer for OutputLayer {
         self.size
     }
 
-    fn new(size: usize) -> Self {
-        OutputLayer { size }
-    }
-
-    fn feed_forward(&self, input: Vec<f32>) -> f32 {
-        input.iter().sum()
+    fn new(size: usize, activation_function: ActivationFunction) -> Self {
+        OutputLayer { size, activation_function }
     }
 }
